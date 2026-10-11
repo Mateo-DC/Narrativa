@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssetPulse - Plataforma Inteligente de Gestión y Alquiler de Activos TI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#312e81' },
+                        slate: { 850: '#1e293b', 900: '#0f172a', 950: '#020617' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontInter & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for interactive dashboards -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-server text-white text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">AssetPulse</span>
+                    <span class="block text-xs text-indigo-400 font-medium">Gestión Inteligente de Activos de Alquiler</span>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <a href="#problema" class="hover:text-indigo-400 transition">Problema vs Solución</a>
+                <a href="#agente" class="hover:text-indigo-400 transition">Agente TI</a>
+                <a href="#ciclo" class="hover:text-indigo-400 transition">Ciclo de Vida</a>
+                <a href="#dashboard" class="hover:text-indigo-400 transition">Dashboard</a>
+                <a href="#simulador" class="hover:text-indigo-400 transition">Simulador</a>
+                <a href="#mvp" class="hover:text-indigo-400 transition">MVP & Seguridad</a>
+            </nav>
+            <div>
+                <a href="#dashboard" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 transition transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-chart-pie mr-2"></i>Ver Demo en Vivo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950">
+            <!-- Background glow effects -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold mb-6">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                    <span>Plataforma de Telemetría y Leasing de Laptops & PCs</span>
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                    Transforma Cada Laptop Alquilada en una <span class="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">Fuente de Datos Viva</span>
+                </h1>
+                <p class="text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    Automatiza el control de inventario, anticipa fallas, gestiona renovaciones y optimiza tu flota de equipos para empresas de leasing con telemetría en tiempo real.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#dashboard" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base shadow-xl shadow-indigo-600/30 transition flex items-center justify-center">
+                        <i class="fa-solid fa-play mr-2"></i> Explorar Demo Interactiva
+                    </a>
+                    <a href="#problema" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-base border border-slate-700 transition flex items-center justify-center">
+                        <i class="fa-solid fa-arrow-down mr-2"></i> Conocer el Proyecto
+                    </a>
+                </div>
+
+                <!-- Quick Stats Strip -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-12 border-t border-slate-800/80 text-left">
+                    <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800">
+                        <span class="block text-2xl sm:text-3xl font-extrabold text-white">1,450</span>
+                        <span class="text-xs text-slate-400 font-medium">Laptops Monitoreadas</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800">
+                        <span class="block text-2xl sm:text-3xl font-extrabold text-emerald-400">99.8%</span>
+                        <span class="text-xs text-slate-400 font-medium">Uptime del Agente</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800">
+                        <span class="block text-2xl sm:text-3xl font-extrabold text-indigo-400">-40%</span>
+                        <span class="text-xs text-slate-400 font-medium">Reducción en Tiempo de Soporte</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800">
+                        <span class="block text-2xl sm:text-3xl font-extrabold text-amber-400">100%</span>
+                        <span class="text-xs text-slate-400 font-medium">Visibilidad de Renovaciones</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="problema" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mb-4">El Problema vs. La Solución</h2>
+                <p class="text-slate-400 text-base sm:text-lg">Cómo pasamos del caos operativo manual a la automatización inteligente centralizada.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                <!-- El Problema -->
+                <div class="p-8 rounded-2xl bg-rose-950/20 border border-rose-900/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-12 h-12 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 text-xl font-bold">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">El Escenario Actual (El Caos)</h3>
+                                <span class="text-xs text-rose-400 font-semibold">Procesos manuales y dispersión</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 text-slate-300 text-sm">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Inventarios en hojas Excel desactualizadas:</strong> Nadie sabe con certeza absoluta qué hardware exacto tiene cada cliente alquilado.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Sorpresas de mantenimiento:</strong> Las laptops fallan de imprevisto en manos del usuario final, generando reclamos y penalidades.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Falta de trazabilidad en devoluciones:</strong> Equipos devueltos con piezas faltantes o especificaciones alteradas sin registro previo.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-xmark text-rose-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Renovaciones a ciegas:</strong> Se renuevan contratos de alquiler tarde o sin saber qué equipos ya cumplieron su ciclo útil.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-rose-900/30 text-xs text-rose-300/80 font-medium">
+                        Resultado: Pérdida de dinero, horas hombre gastadas en auditorías manuales y clientes insatisfechos.
+                    </div>
+                </div>
+
+                <!-- La Solución -->
+                <div class="p-8 rounded-2xl bg-emerald-950/20 border border-emerald-900/30 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl font-bold">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">La Solución AssetPulse</h3>
+                                <span class="text-xs text-emerald-400 font-semibold">Telemetría y Control Centralizado</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-4 text-slate-300 text-sm">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Agente ligero autónomo:</strong> Instalado en cada laptop para reportar especificaciones exactas, uso y salud técnica sin intervención del usuario.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Dashboard en tiempo real para Gerencia y TI:</strong> Visibilidad total de stock disponible, alquilado, en mantenimiento y próximo a vencer.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Alertas preventivas de desgaste:</strong> Detección temprana de fallas en disco duro, batería o temperatura antes de que el equipo falle.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-emerald-400 mt-1 mr-3 flex-shrink-0"></i>
+                                <span><strong>Simulador de demanda futura:</strong> Proyección exacta de cuántos equipos se necesitarán renovar el próximo trimestre.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-emerald-900/30 text-xs text-emerald-300/80 font-medium">
+                        Resultado: Operación automatizada, máxima disponibilidad y fidelización de clientes B2B.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="agente" class="py-24 bg-slate-900/40 border-y border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl mb-4">¿Cómo Funciona el Agente de Software?</h2>
+                    <p class="text-slate-400 text-base sm:text-lg">Un servicio silencioso y seguro que convierte cada dispositivo en un nodo inteligente.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 items-center">
+                    <!-- Paso 1 -->
+                    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center relative">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 font-bold text-lg flex items-center justify-center mx-auto mb-4 border border-indigo-500/30">1</div>
+                        <h3 class="text-lg font-bold text-white mb-2">Despliegue Inicial</h3>
+                        <p class="text-slate-400 text-sm">Se integra de forma nativa o remota en la imagen inicial de la laptop antes de ser entregada al cliente final.</p>
+                    </div>
+
+                    <!-- Paso 2 -->
+                    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center relative">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 font-bold text-lg flex items-center justify-center mx-auto mb-4 border border-indigo-500/30">2</div>
+                        <h3 class="text-lg font-bold text-white mb-2">Recopilación Automática</h3>
+                        <p class="text-slate-400 text-sm">Captura silenciosa de número de serie, MAC address, procesador, RAM, almacenamiento, versión de OS, estado de batería y temperatura.</p>
+                    </div>
+
+                    <!-- Paso 3 -->
+                    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center relative">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 font-bold text-lg flex items-center justify-center mx-auto mb-4 border border-indigo-500/30">3</div>
+                        <h3 class="text-lg font-bold text-white mb-2">Sincronización Cloud</h3>
+                        <p class="text-slate-400 text-sm">Envío cifrado de paquetes de telemetría a la plataforma central para análisis predictivo y actualización instantánea del inventario.</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Agent Simulator Box -->
+                <div class="mt-16 max-w-3xl mx-auto p-6 sm:p-8 rounded-2xl bg-slate-950 border border-indigo-500/30 shadow-2xl">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="text-sm font-semibold text-white font-mono">assetpulse-agent-daemon v2.4.1</span>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 rounded-md bg-indigo-500/20 text-indigo-300 font-mono">Estado: Activo & Seguro</span>
+                    </div>
+                    <div class="space-y-3 font-mono text-xs sm:text-sm text-slate-300">
+                        <div class="flex justify-between py-1 border-b border-slate-900">
+                            <span class="text-slate-500">ID Hardware:</span>
+                            <span class="text-indigo-300">AP-LT-8842-X9</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-900">
+                            <span class="text-slate-500">Procesador & RAM:</span>
+                            <span>Intel Core i7-13700H @ 2.40GHz | 32GB DDR5</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-900">
+                            <span class="text-slate-500">Salud del Disco SSD:</span>
+                            <span class="text-emerald-400">98% (Excelente - 450 TBW restantes)</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-900">
+                            <span class="text-slate-500">Ciclos de Batería:</span>
+                            <span>142 ciclos (Capacidad real: 92%)</span>
+                        </div>
+                        <div class="flex justify-between py-1">
+                            <span class="text-slate-500">Último Reporte Cloud:</span>
+                            <span class="text-indigo-400">Hace 3 minutos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ciclo" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mb-4">Ciclo de Vida Completo del Equipo</h2>
+                <p class="text-slate-400 text-base sm:text-lg">Selecciona cada etapa interactiva para conocer cómo AssetPulse gestiona el activo desde su alta hasta su renovación.</p>
+            </div>
+
+            <!-- Lifecycle Tabs Header -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12">
+                <button onclick="switchLifecycle('entrega')" id="btn-entrega" class="lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">
+                    <i class="fa-solid fa-box-open mr-2"></i>1. Entrega
+                </button>
+                <button onclick="switchLifecycle('asignacion')" id="btn-asignacion" class="lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+                    <i class="fa-solid fa-user-check mr-2"></i>2. Asignación
+                </button>
+                <button onclick="switchLifecycle('monitoreo')" id="btn-monitoreo" class="lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+                    <i class="fa-solid fa-chart-line mr-2"></i>3. Monitoreo
+                </button>
+                <button onclick="switchLifecycle('mantenimiento')" id="btn-mantenimiento" class="lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+                    <i class="fa-solid fa-screwdriver-wrench mr-2"></i>4. Mantenimiento
+                </button>
+                <button onclick="switchLifecycle('devolucion')" id="btn-devolucion" class="lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+                    <i class="fa-solid fa-rotate-left mr-2"></i>5. Devolución
+                </button>
+                <button onclick="switchLifecycle('renovacion')" id="btn-renovacion" class="lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+                    <i class="fa-solid fa-arrows-rotate mr-2"></i>6. Renovación
+                </button>
+            </div>
+
+            <!-- Lifecycle Content Display Card -->
+            <div class="max-w-4xl mx-auto bg-slate-900/80 border border-slate-800 rounded-2xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                <div id="lifecycle-content" class="transition-all duration-300">
+                    <!-- Dynamic content will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="py-24 bg-slate-900/60 border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-white sm:text-4xl mb-2">Dashboard de Operaciones y TI</h2>
+                        <p class="text-slate-400 text-base">Monitoreo en tiempo real de la flota de equipos alquilados.</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex items-center space-x-3">
+                        <select id="filter-client" onchange="filterDashboard()" class="bg-slate-800 text-slate-200 text-sm rounded-xl px-4 py-2.5 border border-slate-700 focus:outline-none focus:border-indigo-500">
+                            <option value="all">Todos los Clientes B2B</option>
+                            <option value="bcp">Banco BCP (420 equipos)</option>
+                            <option value="entel">Entel Perú (310 equipos)</option>
+                            <option value="minera">Minera Buenaventura (280 equipos)</option>
+                            <option value="rimac">Rimac Seguros (440 equipos)</option>
+                        </select>
+                        <button onclick="resetDashboardFilter()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold border border-slate-700 transition">
+                            <i class="fa-solid fa-rotate mr-1.5"></i>Limpiar Filtro
+                        </button>
+                    </div>
+                </div>
+
+                <!-- KPI Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+                    <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Equipos Totales</span>
+                        <div class="flex items-baseline justify-between">
+                            <span id="kpi-total" class="text-3xl font-extrabold text-white">1,450</span>
+                            <span class="text-xs text-indigo-400 font-medium"><i class="fa-solid fa-laptop"></i> Flota</span>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Disponibles (Stock)</span>
+                        <div class="flex items-baseline justify-between">
+                            <span id="kpi-available" class="text-3xl font-extrabold text-emerald-400">185</span>
+                            <span class="text-xs text-emerald-400 font-medium">Listos para entrega</span>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">En Alquiler</span>
+                        <div class="flex items-baseline justify-between">
+                            <span id="kpi-rented" class="text-3xl font-extrabold text-indigo-400">1,160</span>
+                            <span class="text-xs text-indigo-400 font-medium">Activos en clientes</span>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">En Mantenimiento</span>
+                        <div class="flex items-baseline justify-between">
+                            <span id="kpi-maintenance" class="text-3xl font-extrabold text-amber-400">65</span>
+                            <span class="text-xs text-amber-400 font-medium">Soporte preventivo</span>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Próximos a Renovar</span>
+                        <div class="flex items-baseline justify-between">
+                            <span id="kpi-renew" class="text-3xl font-extrabold text-rose-400">40</span>
+                            <span class="text-xs text-rose-400 font-medium">&lt; 30 días</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Chart 1: Distribución por Estado -->
+                    <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800">
+                        <h3 class="text-lg font-bold text-white mb-6 flex items-center justify-between">
+                            <span>Distribución del Parque de Equipos</span>
+                            <span class="text-xs text-slate-400 font-normal">Estado actual</span>
+                        </h3>
+                        <div class="h-72 flex items-center justify-center">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: Proyección de Renovación -->
+                    <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800">
+                        <h3 class="text-lg font-bold text-white mb-6 flex items-center justify-between">
+                            <span>Próximas Renovaciones por Trimestre</span>
+                            <span class="text-xs text-slate-400 font-normal">2026 - 2027</span>
+                        </h3>
+                        <div class="h-72 flex items-center justify-center">
+                            <canvas id="renewalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="simulador" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl mb-4">Simulador de Decisiones para Gerencia</h2>
+                <p class="text-slate-400 text-base sm:text-lg">Proyecta la demanda de equipos y calcula las necesidades de inversión para los próximos meses.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 items-start">
+                <!-- Controles del Simulador -->
+                <div class="p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
+                    <h3 class="text-xl font-bold text-white pb-4 border-b border-slate-800">Parámetros de Simulación</h3>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Crecimiento estimado de clientes B2B:</label>
+                        <input type="range" id="sim-growth" min="0" max="50" value="15" oninput="runSimulator()" class="w-full accent-indigo-500 bg-slate-800 rounded-lg h-2 cursor-pointer">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1">
+                            <span>0%</span>
+                            <span id="val-growth" class="text-indigo-400 font-bold">15% anual</span>
+                            <span>50%</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Tasa de desgaste / obsolescencia:</label>
+                        <select id="sim-wear" onchange="runSimulator()" class="w-full bg-slate-800 text-slate-200 text-sm rounded-xl px-4 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500">
+                            <option value="standard">Estándar (Ciclo de 3 años)</option>
+                            <option value="high">Alto uso (Renovación a los 2 años)</option>
+                            <option value="extended">Extendido (Ciclo de 4 años)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Horizonte de proyección:</label>
+                        <select id="sim-months" onchange="runSimulator()" class="w-full bg-slate-800 text-slate-200 text-sm rounded-xl px-4 py-3 border border-slate-700 focus:outline-none focus:border-indigo-500">
+                            <option value="6">Próximos 6 meses</option>
+                            <option value="12" selected>Próximos 12 meses</option>
+                            <option value="24">Próximos 24 meses</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Resultados del Simulador -->
+                <div class="lg:col-span-2 p-8 rounded-2xl bg-slate-900 border border-indigo-500/30 shadow-xl space-y-8">
+                    <h3 class="text-xl font-bold text-white pb-4 border-b border-slate-800 flex items-center justify-between">
+                        <span>Resultados de la Proyección Operativa</span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">Simulación en Vivo</span>
+                    </h3>
+
+                    <div class="grid sm:grid-cols-3 gap-6">
+                        <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 text-center">
+                            <span class="block text-xs text-slate-400 uppercase tracking-wider mb-2">Nuevas Laptops Requeridas</span>
+                            <span id="res-new-laptops" class="text-3xl font-extrabold text-indigo-400">218</span>
+                            <span class="block text-xs text-slate-500 mt-1">Para satisfacer contratos</span>
+                        </div>
+                        <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 text-center">
+                            <span class="block text-xs text-slate-400 uppercase tracking-wider mb-2">Equipos a Retirar / Renovar</span>
+                            <span id="res-retire" class="text-3xl font-extrabold text-rose-400">145</span>
+                            <span class="block text-xs text-slate-500 mt-1">Fin de vida útil estimada</span>
+                        </div>
+                        <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 text-center">
+                            <span class="block text-xs text-slate-400 uppercase tracking-wider mb-2">Inversión Estimada (CapEx)</span>
+                            <span id="res-capex" class="text-3xl font-extrabold text-emerald-400">$261k</span>
+                            <span class="block text-xs text-slate-500 mt-1">Presupuesto sugerido</span>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-indigo-950/20 border border-indigo-900/40 text-sm text-indigo-200">
+                        <div class="flex items-start space-x-3">
+                            <i class="fa-solid fa-lightbulb text-indigo-400 mt-1 text-lg"></i>
+                            <div>
+                                <strong class="block text-white mb-1">Recomendación automatizada de AssetPulse:</strong>
+                                <span id="res-recommendation">Basado en el ritmo de crecimiento del 15% y la telemetría actual de baterías, se recomienda programar la compra de 120 equipos Core i7 en el Q3 para evitar quiebres de stock en el alquiler corporativo.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mvp" class="py-24 bg-slate-900/40 border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- MVP & Seguridad -->
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold">
+                            <i class="fa-solid fa-lock mr-1.5"></i> Privacidad y Seguridad Garantizada
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-white">Arquitectura MVP Segura y Confiable</h2>
+                        <p class="text-slate-400 text-base leading-relaxed">
+                            AssetPulse ha sido diseñado bajo estrictos estándares de ciberseguridad corporativa. El agente es de bajo consumo (menos del 0.5% de CPU), opera en segundo plano y transmite únicamente telemetría de hardware, estado técnico y ubicación lógica autorizada.
+                        </p>
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-check text-indigo-400 mr-3"></i>
+                                <span>Cifrado de extremo a extremo (TLS 1.3) para todo reporte de datos.</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-check text-indigo-400 mr-3"></i>
+                                <span>Cero espionaje de datos personales: No se recopilan contraseñas ni archivos de usuario.</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa-solid fa-check text-indigo-400 mr-3"></i>
+                                <span>Despliegue rápido en fases (MVP) validando con 100 equipos piloto.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CTA Card -->
+                    <div class="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-indigo-900/40 via-slate-900 to-violet-950/40 border border-indigo-500/30 text-center relative overflow-hidden shadow-2xl">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-4">¿Listo para revolucionar tu operación de leasing?</h3>
+                        <p class="text-slate-300 text-base mb-8 max-w-lg mx-auto">
+                            Convierte cada equipo alquilado en una fuente automática de decisiones con AssetPulse.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button onclick="triggerActionModal()" class="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base shadow-lg shadow-indigo-600/30 transition">
+                                <i class="fa-solid fa-rocket mr-2"></i> Solicitar Demostración Comercial
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-12 bg-slate-950 border-t border-slate-900 text-center text-slate-500 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">A</span>
+                <span class="font-bold text-slate-300">AssetPulse</span>
+                <span>&copy; 2026 - Solución Integral de Alquiler y Telemetría TI</span>
+            </div>
+            <div class="text-xs text-slate-400">
+                Diseñado para Gerencia, TI y Operaciones. Funciona 100% offline.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Modal for Actions (No alert/confirm used) -->
+    <div id="action-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl relative text-center">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mx-auto mb-4 border border-emerald-500/30">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">¡Solicitud Registrada!</h3>
+            <p class="text-slate-400 text-sm mb-6">Gracias por tu interés en AssetPulse. Un especialista de operaciones y preventa se pondrá en contacto para configurar el piloto en tu empresa.</p>
+            <button onclick="closeActionModal()" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Lifecycle Data Definition
+        const lifecycleData = {
+            entrega: {
+                title: "1. Entrega del Equipo con Agente Preinstalado",
+                subtitle: "Preparación y despacho automatizado",
+                icon: "fa-box-open",
+                color: "text-indigo-400",
+                desc: "Antes de entregar la laptop al cliente corporativo, el equipo de TI instala el agente ligero de AssetPulse. Al primer encendido del dispositivo en las oficinas del cliente, este se registra automáticamente en la plataforma central sin requerir configuración manual por parte del usuario final."
+            },
+            asignacion: {
+                title: "2. Asignación y Control de Usuario",
+                subtitle: "Quién utiliza el equipo y en qué área",
+                icon: "fa-user-check",
+                color: "text-emerald-400",
+                desc: "La plataforma enlaza de inmediato el número de serie de la laptop (ej: AP-LT-8842) con el empleado, departamento y contrato B2B correspondiente. Si el equipo se reasigna a otro colaborador, el cambio se actualiza con un solo clic en el dashboard."
+            },
+            monitoreo: {
+                title: "3. Monitoreo en Tiempo Real y Telemetría",
+                subtitle: "Salud del hardware y rendimiento continuo",
+                icon: "fa-chart-line",
+                color: "text-blue-400",
+                desc: "El agente recopila constantemente métricas clave: temperatura del procesador, estado del disco SSD (TBW), salud de la batería y uso de memoria. Esto permite detectar anomalías técnicas antes de que se conviertan en incidentes operativos para el cliente."
+            },
+            mantenimiento: {
+                title: "4. Mantenimiento Preventivo Inteligente",
+                subtitle: "Anticipación a fallas y soporte programado",
+                icon: "fa-screwdriver-wrench",
+                color: "text-amber-400",
+                desc: "Cuando el sistema detecta un desgaste anómalo (ej: batería degradada por debajo del 75% o sectores defectuosos en el disco), genera una alerta automática en el módulo de operaciones para programar un reemplazo preventivo antes de que el usuario final sufra una interrupción."
+            },
+            devolucion: {
+                title: "5. Devolución y Auditoría de Cierre",
+                subtitle: "Verificación de estado al finalizar el contrato",
+                icon: "fa-rotate-left",
+                color: "text-violet-400",
+                desc: "Al culminar el periodo de alquiler, el equipo es devuelto. AssetPulse realiza un reporte de auditoría final comparando el hardware inicial frente al estado actual, garantizando que no existan piezas faltantes o alteraciones no autorizadas."
+            },
+            renovacion: {
+                title: "6. Renovación y Ciclo de Reemplazo",
+                subtitle: "Identificación de equipos próximos a vencer",
+                icon: "fa-arrows-rotate",
+                color: "text-rose-400",
+                desc: "El sistema analiza la antigüedad, costo de mantenimiento acumulado y rendimiento para recomendar automáticamente qué laptops deben ser renovadas en el siguiente lote de compras, maximizando el ROI del negocio de leasing."
+            }
+        };
+
+        function switchLifecycle(stage) {
+            // Update active button styles
+            document.querySelectorAll('.lifecycle-btn').forEach(btn => {
+                btn.className = "lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-slate-900 text-slate-400 hover:text-white border border-slate-800";
+            });
+            const activeBtn = document.getElementById(`btn-${stage}`);
+            activeBtn.className = "lifecycle-btn px-5 py-3 rounded-xl font-semibold text-sm transition bg-indigo-600 text-white shadow-lg shadow-indigo-600/30";
+
+            // Render content
+            const data = lifecycleData[stage];
+            const container = document.getElementById('lifecycle-content');
+            container.innerHTML = `
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center text-2xl ${data.color}">
+                        <i class="fa-solid ${data.icon}"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">${data.title}</h3>
+                        <span class="text-sm ${data.color} font-medium">${data.subtitle}</span>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-base sm:text-lg leading-relaxed">${data.desc}</p>
+            `;
+        }
+
+        // Initialize default lifecycle tab
+        switchLifecycle('entrega');
+
+        // Chart.js instances
+        let statusChartInstance = null;
+        let renewalChartInstance = null;
+
+        function initCharts() {
+            // Status Doughnut Chart
+            const ctxStatus = document.getElementById('statusChart').getContext('2d');
+            statusChartInstance = new Chart(ctxStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Disponibles', 'En Alquiler', 'En Mantenimiento', 'Próximos a Renovar'],
+                    datasets: [{
+                        data: [185, 1160, 65, 40],
+                        backgroundColor: ['#10b981', '#6366f1', '#f59e0b', '#f43f5e'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#94a3b8', font: { family: 'Inter', size: 12 } }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Renewal Bar Chart
+            const ctxRenewal = document.getElementById('renewalChart').getContext('2d');
+            renewalChartInstance = new Chart(ctxRenewal, {
+                type: 'bar',
+                data: {
+                    labels: ['Q3 2026', 'Q4 2026', 'Q1 2027', 'Q2 2027'],
+                    datasets: [{
+                        label: 'Equipos a Renovar',
+                        data: [40, 65, 90, 110],
+                        backgroundColor: '#6366f1',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        }
+
+        // Filter Dashboard logic
+        function filterDashboard() {
+            const client = document.getElementById('filter-client').value;
+            let total = 1450, available = 185, rented = 1160, maintenance = 65, renew = 40;
+
+            if (client === 'bcp') {
+                total = 420; available = 45; rented = 345; maintenance = 20; renew = 10;
+            } else if (client === 'entel') {
+                total = 310; available = 30; rented = 255; maintenance = 15; renew = 10;
+            } else if (client === 'minera') {
+                total = 280; available = 25; rented = 230; maintenance = 15; renew = 10;
+            } else if (client === 'rimac') {
+                total = 440; available = 85; rented = 330; maintenance = 15; renew = 10;
+            }
+
+            document.getElementById('kpi-total').innerText = total;
+            document.getElementById('kpi-available').innerText = available;
+            document.getElementById('kpi-rented').innerText = rented;
+            document.getElementById('kpi-maintenance').innerText = maintenance;
+            document.getElementById('kpi-renew').innerText = renew;
+
+            // Update chart data dynamically
+            if (statusChartInstance) {
+                statusChartInstance.data.datasets[0].data = [available, rented, maintenance, renew];
+                statusChartInstance.update();
+            }
+        }
+
+        function resetDashboardFilter() {
+            document.getElementById('filter-client').value = 'all';
+            filterDashboard();
+        }
+
+        // Simulator Logic
+        function runSimulator() {
+            const growth = parseInt(document.getElementById('sim-growth').value);
+            const wear = document.getElementById('sim-wear').value;
+            const months = parseInt(document.getElementById('sim-months').value);
+
+            document.getElementById('val-growth').innerText = growth + '% anual';
+
+            let baseFactor = months / 12;
+            let newLaptops = Math.round(1160 * (growth / 100) * baseFactor);
+            let retireRate = wear === 'high' ? 0.15 : wear === 'standard' ? 0.10 : 0.07;
+            let retire = Math.round(1450 * retireRate * baseFactor);
+            let capex = Math.round((newLaptops * 1200) / 1000); // $1200 per laptop average
+
+            document.getElementById('res-new-laptops').innerText = newLaptops;
+            document.getElementById('res-retire').innerText = retire;
+            document.getElementById('res-capex').innerText = '$' + capex + 'k';
+
+            let recText = `Basado en un crecimiento del ${growth}% y ciclo de desgaste (${wear}), se proyecta adquirir ${newLaptops} equipos y retirar ${retire} obsoletos en los próximos ${months} meses, con un CapEx estimado de $${capex}k.`;
+            document.getElementById('res-recommendation').innerText = recText;
+        }
+
+        // Modal triggers (No alert/confirm)
+        function triggerActionModal() {
+            document.getElementById('action-modal').classList.remove('hidden');
+        }
+
+        function closeActionModal() {
+            document.getElementById('action-modal').classList.add('hidden');
+        }
+
+        // Run on load
+        window.onload = function () {
+            initCharts();
+            runSimulator();
+        }
+    </script>
+</body>
+</html>
